@@ -11,18 +11,50 @@ set $primary eDP-1
 set $secondary HDMI-1
 set $tertiary DP-1
 
+set $w1 "1: Ref"
+set $w2 "2: IDE" 
+set $w3 "3: Scratch"
+set $w4 "4"
+set $w5 "5: File Manager"
+set $w6 "6"
+set $w7 "7: Slack" 
+set $w8 "8: Mail" 
+set $w9 "9: Media" 
+set $w10 "10: Processes"
+
 bindsym $mod+Shift+x move workspace to output right
-# workspace "1: Ref" output DVI-I-1
-# workspace "2: IDE" output VGA-0
-# workspace "7: Comm" output DVI-I-1
-# workspace "9: Media" output DVI-I-1
-# workspace "10: Processes" output VGA-0
-workspace "1: Ref" output $primary
-workspace "2: IDE" output $secondary
-workspace "7: Comm" output $primary
-workspace "9: Media" output $tertiary
-workspace "8" output $secondary
-workspace "10: Processes" output $tertiary
+
+# Set default monitor for a workspace
+workspace $w1 output $primary
+workspace $w2 output $secondary
+workspace $w7 output $primary
+workspace $w9 output $tertiary
+workspace $w8 output $secondary
+workspace $w10 output $tertiary
+
+# switch to workspace
+bindsym $mod+1 workspace $w1
+bindsym $mod+2 workspace $w2
+bindsym $mod+3 workspace $w3
+bindsym $mod+4 workspace $w4
+bindsym $mod+5 workspace $w5
+bindsym $mod+6 workspace $w6
+bindsym $mod+7 workspace $w7
+bindsym $mod+8 workspace $w8
+bindsym $mod+9 workspace $w9
+bindsym $mod+0 workspace $w10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $w1
+bindsym $mod+Shift+2 move container to workspace $w2
+bindsym $mod+Shift+3 move container to workspace $w3
+bindsym $mod+Shift+4 move container to workspace $w4
+bindsym $mod+Shift+5 move container to workspace $w5
+bindsym $mod+Shift+6 move container to workspace $w6
+bindsym $mod+Shift+7 move container to workspace $w7
+bindsym $mod+Shift+8 move container to workspace $w8
+bindsym $mod+Shift+9 move container to workspace $w9
+bindsym $mod+Shift+0 move container to workspace $w10
 # --------------------------------------------------------------------------- #
 
 # Multimedia keys
@@ -128,30 +160,6 @@ bindsym $mod+a focus parent
 
 # focus the child container
 # bindsym $mod+d focus child
-
-# switch to workspace
-bindsym $mod+1 workspace 1: Ref
-bindsym $mod+2 workspace 2: IDE
-bindsym $mod+3 workspace 3: Scratch_Pad
-bindsym $mod+4 workspace 4: VM
-bindsym $mod+5 workspace 5: File Manager 
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7: Comm
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9: Media
-bindsym $mod+0 workspace 10: Processes
-
-# move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1: Ref
-bindsym $mod+Shift+2 move container to workspace 2: IDE
-bindsym $mod+Shift+3 move container to workspace 3: Scratch_Pad
-bindsym $mod+Shift+4 move container to workspace 4: VM
-bindsym $mod+Shift+5 move container to workspace 5: File Manager 
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7: Comm
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9: Media
-bindsym $mod+Shift+0 move container to workspace 10: Processes
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
