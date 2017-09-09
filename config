@@ -1,0 +1,248 @@
+# Background services
+# --------------------------------------------------------------------------- #
+exec --no-startup-id feh --bg-fill /home/anish/Pictures/Wallpapers/bench_solarized_warned.png
+exec --no-startup-id gnome-settings-daemon
+exec --no-startup-id nm-applet
+
+# Multi monitor setup
+# --------------------------------------------------------------------------- #
+# exec --no-startup-id xrandr --output DVI-I-1 --mode 1600x900 --left-of VGA-0
+set $primary eDP-1
+set $secondary HDMI-1
+set $tertiary DP-1
+
+bindsym $mod+Shift+x move workspace to output right
+# workspace "1: Ref" output DVI-I-1
+# workspace "2: IDE" output VGA-0
+# workspace "7: Comm" output DVI-I-1
+# workspace "9: Media" output DVI-I-1
+# workspace "10: Processes" output VGA-0
+workspace "1: Ref" output $primary
+workspace "2: IDE" output $secondary
+workspace "7: Comm" output $primary
+workspace "9: Media" output $tertiary
+workspace "8" output $secondary
+workspace "10: Processes" output $tertiary
+# --------------------------------------------------------------------------- #
+
+# Multimedia keys
+# TODO
+# --------------------------------------------------------------------------- #
+# bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c 1 -q sset Master 3%+
+# bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c 1 -q sset Master 3%-
+# bindsym XF86AudioMute exec --no-startup-id amixer -c 1 # Sreen brightness controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3% && pactl set-sink-volume 1 +3%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3% && pactl set-sink-volume 1 -3%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pactl set-sink-mute 0 toggle # mute sound
+bindsym $mod+grave exec --no-startup-id ~/.i3/sound_switch.sh
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness-qD pulse sset Master toggle
+# --------------------------------------------------------------------------- #
+
+# Application Shortcuts
+# --------------------------------------------------------------------------- #
+# Dev tools [Recomend shortest $mod combintations]
+bindsym $mod+BackSpace exec emacs
+bindsym $mod+Return exec i3-sensible-terminal
+
+# Others [Recomend using $mod+Shift combinations]
+bindsym $mod+Shift+Return exec google-chrome-stable
+bindsym $mod+Shift+BackSpace exec pcmanfm
+# --------------------------------------------------------------------------- #
+
+
+# UI
+# --------------------------------------------------------------------------- #
+set $mod Mod4
+workspace_auto_back_and_forth no
+# workspace_layout tabbed
+focus_follows_mouse no
+
+bindsym $mod+Shift+Delete exec ~/.i3/custom_lock
+bindsym $mod+d exec dmenu_run
+
+hide_edge_borders vertical
+new_window pixel 1
+new_float normal
+font pango: Ubuntu Mono 9
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+ # kill focused window
+bindsym $mod+Shift+q kill
+
+bindsym $mod+b bar mode toggle
+# --------------------------------------------------------------------------- #
+
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+v split h
+
+# split in vertical orientation
+bindsym $mod+s split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+f fullscreen global
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+t layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+# bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1: Ref
+bindsym $mod+2 workspace 2: IDE
+bindsym $mod+3 workspace 3: Scratch_Pad
+bindsym $mod+4 workspace 4: VM
+bindsym $mod+5 workspace 5: File Manager 
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7: Comm
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9: Media
+bindsym $mod+0 workspace 10: Processes
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1: Ref
+bindsym $mod+Shift+2 move container to workspace 2: IDE
+bindsym $mod+Shift+3 move container to workspace 3: Scratch_Pad
+bindsym $mod+Shift+4 move container to workspace 4: VM
+bindsym $mod+Shift+5 move container to workspace 5: File Manager 
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7: Comm
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9: Media
+bindsym $mod+Shift+0 move container to workspace 10: Processes
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+bar {
+  position bottom
+  # mode hide
+  status_command py3status -c ~/.i3/i3status.conf
+  tray_output primary
+  output $primary
+  colors {
+    separator #dc322f
+    background #002b36
+    statusline #b58900
+    focused_workspace #eee8d5 #eee8d5 #002b36
+    active_workspace #fdf6e3 #6c71c4 #fdf6e3
+    inactive_workspace #073642 #073642 #93a1a1
+    urgent_workspace #dc322f #dc322f #fdf6e3
+  }
+}
+
+bar {
+  position bottom
+  mode hide
+  output $secondary
+  tray_output none
+  colors {
+    separator #dc322f
+    background #002b36
+    statusline #b58900
+    focused_workspace #eee8d5 #eee8d5 #002b36
+    active_workspace #fdf6e3 #6c71c4 #fdf6e3
+    inactive_workspace #073642 #073642 #93a1a1
+    urgent_workspace #dc322f #dc322f #fdf6e3
+  }
+}
+
+bar {
+  position bottom
+  mode hide
+  output $tertiary
+  tray_output none
+  colors {
+    separator #dc322f
+    background #002b36
+    statusline #b58900
+    focused_workspace #eee8d5 #eee8d5 #002b36
+    active_workspace #fdf6e3 #6c71c4 #fdf6e3
+    inactive_workspace #073642 #073642 #93a1a1
+    urgent_workspace #dc322f #dc322f #fdf6e3
+  }
+}
+
+
+client.focused #2aa198 #2aa198 #fdf6e3 #6c71c4
+client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
+client.unfocused #073642 #073642 #93a1a1 #586e75
+client.urgent #dc322f #dc322f #fdf6e3 #dc322f
+
+
+# Application level customization
+# --------------------------------------------------------------------------- #
+# for_window [class="(?i)slack"] move container to workspace 7: Comm
