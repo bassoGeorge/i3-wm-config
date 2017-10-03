@@ -1,15 +1,31 @@
+# Some important variables
+set $primary eDP1
+set $secondary HDMI1
+set $tertiary DP1
+
 # Background services
 # --------------------------------------------------------------------------- #
-exec --no-startup-id feh --bg-fill /home/anish/Pictures/Wallpapers/bench_solarized_warned.png
+exec --no-startup-id /home/anish/.i3/scripts/monitors_3_top.sh
 exec --no-startup-id gnome-settings-daemon
 exec --no-startup-id nm-applet
+exec --no-startup-id feh --bg-fill /home/anish/Pictures/Wallpapers/bench_solarized_warned.png
 
 # Multi monitor setup
 # --------------------------------------------------------------------------- #
 # exec --no-startup-id xrandr --output DVI-I-1 --mode 1600x900 --left-of VGA-0
-set $primary eDP-1
-set $secondary HDMI-1
-set $tertiary DP-1
+# set $secondary DP1
+# set $tertiarry $primary
+
+set $displayMode "Set display mode [w]ork [l]aptop"
+bindsym $mod+Shift+grave mode $displayMode
+mode $displayMode {
+     bindsym w exec "~/.i3/scripts/monitors_3_top.sh"; \
+               mode "default"
+     bindsym l exec "~/.i3/scripts/monitors_laptop.sh"; \
+               mode "default"
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
 
 set $w1 "1: Ref"
 set $w2 "2: IDE" 
@@ -28,8 +44,8 @@ bindsym $mod+Shift+x move workspace to output right
 workspace $w1 output $primary
 workspace $w2 output $secondary
 workspace $w7 output $primary
-workspace $w9 output $tertiary
-workspace $w8 output $secondary
+workspace $w9 output $primary
+workspace $w8 output $tertiary
 workspace $w10 output $tertiary
 
 # switch to workspace
@@ -66,7 +82,7 @@ bindsym $mod+Shift+0 move container to workspace $w10
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3% && pactl set-sink-volume 1 +3%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3% && pactl set-sink-volume 1 -3%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pactl set-sink-mute 0 toggle # mute sound
-bindsym $mod+grave exec --no-startup-id ~/.i3/sound_switch.sh
+bindsym $mod+grave exec --no-startup-id ~/.i3/scripts/switch_sound.sh
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
@@ -92,7 +108,7 @@ workspace_auto_back_and_forth no
 # workspace_layout tabbed
 focus_follows_mouse no
 
-bindsym $mod+Shift+Delete exec ~/.i3/custom_lock
+bindsym $mod+Shift+Delete exec ~/.i3/scripts/custom_lock.sh
 bindsym $mod+d exec dmenu_run
 
 hide_edge_borders vertical
