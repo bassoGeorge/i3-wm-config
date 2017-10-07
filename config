@@ -1,14 +1,19 @@
 # Some important variables
+
+# i3 configuration root
+set $ROOT ~/.i3
+
+# Monitor names
 set $primary eDP1
 set $secondary HDMI1
 set $tertiary DP1
 
 # Background services
 # --------------------------------------------------------------------------- #
-exec --no-startup-id /home/anish/.i3/scripts/monitors_3_top.sh
+exec --no-startup-id "$ROOT/scripts/monitors_3_top.sh"
 exec --no-startup-id gnome-settings-daemon
 exec --no-startup-id nm-applet
-exec --no-startup-id feh --bg-fill /home/anish/Pictures/Wallpapers/bench_solarized_warned.png
+exec --no-startup-id "feh --bg-fill $ROOT/resources/bench_solarized_warned.png"
 
 # Multi monitor setup
 # --------------------------------------------------------------------------- #
@@ -19,12 +24,25 @@ exec --no-startup-id feh --bg-fill /home/anish/Pictures/Wallpapers/bench_solariz
 set $displayMode "Set display mode [w]ork [l]aptop"
 bindsym $mod+Shift+grave mode $displayMode
 mode $displayMode {
-     bindsym w exec "~/.i3/scripts/monitors_3_top.sh"; \
+     bindsym w exec "$ROOT/scripts/monitors_3_top.sh"; \
                mode "default"
-     bindsym l exec "~/.i3/scripts/monitors_laptop.sh"; \
+     bindsym l exec "$ROOT/scripts/monitors_laptop.sh"; \
                mode "default"
+
+     bindsym t exec "feh --bg-fill $ROOT/resources/bench_solarized_warned.png"; mode "default";
      bindsym Return mode "default"
      bindsym Escape mode "default"
+}
+
+set $exitMode "Exit: [l]og out, [s]witch user, sh[u]tdown"
+bindsym $mod+Shift+E mode $exitMode
+mode $exitMode {
+     bindsym s exec "dm-tool switch-to-greeter"; \
+               mode "default"
+     bindsym l exec "i3-msg exit";
+     bindsym u exec "shutdown 0";
+     bindsym Return mode "default";
+     bindsym Escape mode "default";
 }
 
 set $w1 "1: Ref"
@@ -82,7 +100,7 @@ bindsym $mod+Shift+0 move container to workspace $w10
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3% && pactl set-sink-volume 1 +3%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3% && pactl set-sink-volume 1 -3%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pactl set-sink-mute 0 toggle # mute sound
-bindsym $mod+grave exec --no-startup-id ~/.i3/scripts/switch_sound.sh
+bindsym $mod+grave exec --no-startup-id "$ROOT/scripts/switch_sound.sh"
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
@@ -108,7 +126,7 @@ workspace_auto_back_and_forth no
 # workspace_layout tabbed
 focus_follows_mouse no
 
-bindsym $mod+Shift+Delete exec ~/.i3/scripts/custom_lock.sh
+bindsym $mod+Shift+Delete exec "$ROOT/scripts/custom_lock.sh"
 bindsym $mod+d exec dmenu_run
 
 hide_edge_borders vertical
@@ -182,7 +200,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -214,7 +232,7 @@ bindsym $mod+r mode "resize"
 bar {
   position bottom
   # mode hide
-  status_command py3status -c ~/.i3/i3status.conf
+  status_command py3status -c $ROOT/i3status.conf
   tray_output primary
   output $primary
   colors {
