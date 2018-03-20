@@ -10,14 +10,22 @@
 # i3 configuration root
 set $ROOT ~/.i3
 
-# Monitor names
+# Monitor names as per left-to-right
 set $primary eDP1
 set $secondary HDMI1
 set $tertiary DP1
 
+# Montior specifics
+set $laptop eDP1
+set $extra DP1
+
+# Overrides for alternate arrangement of laptop on the right
+set $primary DP1
+set $tertiary eDP1
+
 # Background services
 # --------------------------------------------------------------------------- #
-exec --no-startup-id "$ROOT/scripts/monitors_3_top.sh"
+exec --no-startup-id "$ROOT/scripts/monitors_3_top_alt.sh"
 exec --no-startup-id gnome-settings-daemon
 exec --no-startup-id nm-applet
 exec --no-startup-id "feh --bg-fill $ROOT/resources/bench_solarized_warned.png"
@@ -25,7 +33,7 @@ exec --no-startup-id "feh --bg-fill $ROOT/resources/bench_solarized_warned.png"
 set $displayMode "Set display mode [w]ork [l]aptop"
 bindsym $mod+Shift+grave mode $displayMode
 mode $displayMode {
-     bindsym w exec "$ROOT/scripts/monitors_3_top.sh"; \
+     bindsym w exec "$ROOT/scripts/monitors_3_top_alt.sh"; \
                mode "default"
      bindsym l exec "$ROOT/scripts/monitors_laptop.sh"; \
                mode "default"
@@ -163,6 +171,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 
 # Others [Recomend using $mod+Shift combinations]
 bindsym $mod+Shift+Return exec google-chrome-stable
+bindsym $mod+Shift+Ctrl+Return exec firefox
 bindsym $mod+Shift+BackSpace exec pcmanfm
 # --------------------------------------------------------------------------- #
 
@@ -278,11 +287,11 @@ bindsym $mod+r mode "resize"
 
 
 bar {
-  position bottom
+  position top
   # mode hide
   status_command py3status -c $ROOT/i3status.conf
   tray_output primary
-  output $primary
+  output $laptop
   colors {
     separator #dc322f
     background #002b36
@@ -313,7 +322,7 @@ bar {
 bar {
   position bottom
   mode hide
-  output $tertiary
+  output $extra
   tray_output none
   colors {
     separator #dc322f
